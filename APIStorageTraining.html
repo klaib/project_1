@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Exo window.Storage API</title>
+
+		<script src="./APIStorageTraining.js"></script>
+		<style>
+			.hide {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header>
+			<h1>Welcome to your TO-DO-LIST</h1>
+		</header>
+		<div id="userInvite">
+			<button id="login" >Login</button> for registered users
+			<br /><br />
+			<button id="sign-in">sign-in</button> for fisrt-time users
+			<button id="display" >display</button> 
+		</div>
+		<form id="userDetails" class="hide" methode="POST" charset="UTF-8">
+			First-name :<input
+				id="fisrtname"
+				type="text"
+				value="Karim"
+				required="required"
+			/><br /><br />
+			Last-name :<input
+				id="lastname"
+				type="text"
+				minlength="2"
+				required="required"
+			/><br /><br />
+			Email adress
+			<input
+				id="email"
+				type="email"
+				value="email@fr"
+				required="required"
+			/><br />
+			Choose password
+			<input
+				id="password"
+				type="password"
+				minlength="10"
+				required="required"
+			/><br />
+			Confirm password
+			<!-- <input
+				id="passwordConfirmed"
+				type="password"
+				value="74747"
+				required="required"
+			/><br /> -->
+
+			<button id="settingsOK" type="submit">Valid</button><br />
+<div id="duplicateUser" > </p>
+
+		</form>
+
+		<form id="userCheck" class="hide">
+			Email adress <input type="text" /><br />
+			password <input type="password" />
+		</form>
+	</body>
+</html>
