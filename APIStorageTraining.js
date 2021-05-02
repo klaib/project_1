@@ -1,118 +1,117 @@
-setTimeout(
-	// à caus e d un soucis le setTimeout
+var myStorage = localStorage;
+let usersCollect = [];
+let user = {};
+//
+//  "Storage" native Object, DO NOT CONFUSEwith myStorage !!!
 
-	() => {
-		var myStorage = localStorage;
-		//
-		//  "Storage" native Object, DO NOT CONFUSEwith myStorage !!!
+Storage.prototype.setObj = function (key, obj) {
+	return this.setItem(key, JSON.stringify(obj));
+};
+Storage.prototype.getObj = function (key) {
+	return JSON.parse(this.getItem(key));
+};
 
-		Storage.prototype.setObj = function (key, obj) {
-			return this.setItem(key, JSON.stringify(obj));
-		};
-		Storage.prototype.getObj = function (key) {
-			return JSON.parse(this.getItem(key));
-		};
+///****************************************************
+const userInvite = document.getElementById("userInvite");
+const userDetails = document.getElementById("userDetails");
+const userCheck = document.getElementById("userCheck");
+const login = document.getElementById("login");
+const signIn = document.getElementById("sign-in");
+const display = document.getElementById("display");
+const homePage = document.getElementById("home");
+const userInfo = document.getElementById("userInfoOK");
 
-		///****************************************************
-		let userInvite = document.getElementById("userInvite");
-		//let userCheck = document.getElementById("userCheck");
-		let userDetails = document.getElementById("userDetails");
-		let login = document.getElementById("login");
-		let signIn = document.getElementById("sign-in");
-		let display = document.getElementById("display");
+login.addEventListener("click", userLogin);
+signIn.addEventListener("click", userSignInPrep);
+display.addEventListener("click", displayRecord);
+homePage.addEventListener("click", home);
+userInfo.addEventListener("click", profilStoring);
+function home() {
+	//userInvite.classList.toggle("hide");
+	//userDetails.classList.toggle("hide");
+	homePage.classList.toggle("hide");
+}
 
-		function welcome() {
-			// userInvite.classList.toggle("hide");
-			// userCheck.classList.toggle("hide");
-			login.addEventListener("click", userLogin);
-			signIn.addEventListener("click", userSignIn);
-			display.addEventListener("click", displayRecord);
+function displayRecord() {
+	// for test and dev only   ****************
+	alert("hi");
+	let users = myStorage.getObj("users");
+	if (users == null) {
+		alert("users is null");
+	} else {
+		for (i = 0; i < users.length; i += 1) alert(users[i].pseudo);
+	}
+}
+///******************Display SIGN -IN form       *******************
+
+function userSignInPrep() {
+	userInvite.classList.toggle("hide");
+	userDetails.classList.toggle("hide");
+	homePage.classList.toggle("hide");
+}
+
+function userLogin() {
+	userInvite.classList.toggle("hide");
+	userCheck.classList.toggle("hide");
+	homePage.classList.toggle("hide");
+	// alert(" vous avez cliqué sur  LOGIN");
+	//homePage.classList.toggle("hide");
+}
+
+function duplicatedEmail(usersList) {
+	var duplicate = false;
+
+	usersList.every((obj) => {
+		if (obj.email == user.email) {
+			duplicate = true;
+		} else {
+			duplicate = false;
 		}
+	});
 
-		function displayRecord() {
-			// for test and dev only   ****************
-			alert("hi");
-			let users = myStorage.getObj("users");
-			if (users == null) {
-				alert("users is null");
-			} else {
-				for (i=0;i<users.length;i+=1)
-				alert(users[i].pseudo);
-			}
+	return duplicate;
+}
+
+function validPassword(test) {}
+
+function userFilling() {
+	user.firstName = userDetails[0].value;
+	user.lastName = userDetails[1].value;
+	user.email = userDetails[2].value;
+	user.password = userDetails[3].value;
+}
+
+function profilStoring(e) {
+	userFilling();
+
+	let curentUserList = myStorage.getObj("users");
+
+	if (curentUserList) {
+		//	users list exists already
+
+		usersCollect = curentUserList;
+		if (duplicatedEmail(curentUserList)) {
+			alert("duplicated email \n \n returning to Home page");
+			e.preventDefault();
+			return;
 		}
-		///******************Display SIGN -IN form       *******************
+	}
+	//alert("after duplicated email ")
+	usersCollect.push(user);
+	myStorage.setObj("users", usersCollect);
+}
 
-		function userSignIn(e) {
-			userInvite.classList.toggle("hide");
-			userDetails.classList.toggle("hide");
-			let settings = document.getElementById("settingsOK");
-			settings.addEventListener("click", profilProcessing);
-			// userDetails.classList.toggle("hide");
-			// userDetails.classList.toggle("hide");
-		}
+// updating users list !!!
 
-		function userLogin(e) {
-			//const myInput = document.getElementById
-			alert(" vous avez cliqué sur  LOGIN");
-		}
-		function checkDuplicateUser(obj) {
-			var duplicate = false;
-			let i = 0;
-			list.every((obj) => {
-				if (obj.prénom == userID[0].value && obj.nom == userID[1].value) {
-					duplicate = true;
-					alert("duplicate = true ");
-					return false;
-				} else {
-					alert(i);
-					i++;
-					return true;
-				}
-			});
+///******************Display ONE specific list    *******************
 
-			return duplicate;
-		}
+///******************Display All TO DO lists    *******************
 
-		function profilProcessing() {
-			//alert("settings ok");
-			let user = {};
+///*************        Display LOGIN form       *******************
+// userInvite.classList.toggle("hide");
+// userCheck.classList.toggle("hide"); */
 
-			let usersCollect = [];
-			user.pseudo = userDetails[0].value + "_" + userDetails[1].value;
-			user.firstName = userDetails[0].value;
-			user.lastName = userDetails[1].value;
-			user.email = userDetails[2].value;
-			user.password = userDetails[3].value;
-
-			let curentUserList = myStorage.getObj("users");
-			if (curentUserList) {
-				// users list exists already
-
-				usersCollect = curentUserList;
-				// if (usersCollect[pseudo.Karim_LAIB]) {
-				// 	alert(" firstName / LastName already exists");
-				// 	console.log(" firstName / LastName already exists");
-				// }
-
-				usersCollect.push(user);
-			} else {
-				// case of no previous list
-
-				usersCollect.push(user);
-			}
-			myStorage.setObj("users", usersCollect); // updating users list !!!
-		}
-		///******************Display ONE specific list    *******************
-
-		///******************Display All TO DO lists    *******************
-
-		///*************        Display LOGIN form       *******************
-		// userInvite.classList.toggle("hide");
-		// userCheck.classList.toggle("hide");
-		welcome();
-	},
-
-	10
-);
+welcome();
+//
 
 ///****************************************************
